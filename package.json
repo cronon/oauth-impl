@@ -1,0 +1,22 @@
+{
+  "name": "oauth-impl",
+  "version": "0.0.1",
+  "description": "",
+  "main": " ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cronon/oauth-impl.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/cronon/oauth-impl/issues"
+  },
+  "homepage": "https://github.com/cronon/oauth-impl#readme",
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
+}
