@@ -19,35 +19,36 @@ function updateView(data){
 function render(state){
     return `
         <h1>vk credentials</h1>
-        ${vkView(state)}
+        ${vkView(state.vk)}
         <h1>github credentials</h1>
-        <p>${githubView(state)}</p>
+        <p>${githubView(state.githb)}</p>
         <h1>google credentials</h1>
-        ${googleView(state)}
+        ${googleView(state.google)}
     `
 }
 function vkView(state){
     return `
         <dl>
             <dt>First name</dt>
-            <dd>${state.vk.first_name}</dd>
+            <dd>${state.first_name}</dd>
             <dt>Last name</dt>
-            <dd>${state.vk.last_name}</dd>
+            <dd>${state.last_name}</dd>
         </dl>
     `
 }
 function githubView(state){
-    return JSON.stringify(state.github);
+    return JSON.stringify(state);
 }
 function googleView(state){
     return `
         <dl>
             <dt>Name</dt>
-            <dd>${state.google.name}</dd>
+            <dd>${state.name}</dd>
             <dt>Email</dt>
-            <dd>${state.google.name}</dd>
+            <dd>${state.name}</dd>
             <dt>Image</dt>
-            <dd><img src="${state.google.image}"></dd>
+            <dd><img src="${state.picture}"></dd>
         </dl>
+        <button onclick="googleAuth.signout()">Sign out</button>
     `
 }
