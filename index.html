@@ -2,14 +2,18 @@
 <html>
     <head>
         <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <meta name="google-signin-client_id" content="1076511939725-8a45ar34bpjdr0jsiilh7adorn0oruqc.apps.googleusercontent.com">
         <script src="js/state.js"></script>
         <script src="js/vk.js"></script>
         <script src="js/github.js"></script>
+        <script src="js/google.js"></script>
     </head>
     <body>
         <h1>Hello world!</h1>
         <button onclick="vkAuth.authenticate()">Sign in with vk</button>
         <button onclick="githubAuth.authenticate()">Sign in with github</button>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <x-view></x-view>
     </body>
 </html>
