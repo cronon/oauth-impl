@@ -5,13 +5,13 @@
         <script src="node_modules/jwt-decode/build/jwt-decode.js"></script>
         <script src="js/state.js"></script>
         <script src="js/vk.js"></script>
-        <script src="js/github.js"></script>
+        <script src="js/auth0.js"></script>
         <script src="js/google.js"></script>
     </head>
     <body>
         <h1>Hello world!</h1>
         <button onclick="vkAuth.authenticate()">Sign in with vk</button>
-        <button onclick="githubAuth.authenticate()">Sign in with github</button>
+        <button onclick="auth0API.getProfile()">Sign in with Auth0</button>
         <button onclick="googleAPI.getProfile()">Fetch google profile</button>
         <x-view></x-view>
     </body>
