@@ -33,7 +33,10 @@ function vkView(state){
             <dd>${state.first_name}</dd>
             <dt>Last name</dt>
             <dd>${state.last_name}</dd>
+            <dt>Photo</dt>
+            <dd><img src="${state.photo}"/></dd>
         </dl>
+        <button onclick="vkAuth.signout()">Sign out</button>
     ` : '';
 }
 function auth0(state){
@@ -43,7 +46,7 @@ function auth0(state){
             <dd>${state.name}</dd>
             <dt>Email</dt>
             <dd>${state.email}</dd>
-            <dt>Image</dt>
+            <dt>Photo</dt>
             <dd><img src="${state.picture}"></dd>
         </dl>
         <button onclick="auth0Auth.signout()">Sign out</button>
@@ -56,7 +59,7 @@ function googleView(state){
             <dd>${state.name}</dd>
             <dt>Email</dt>
             <dd>${state.email}</dd>
-            <dt>Image</dt>
+            <dt>Photo</dt>
             <dd><img src="${state.picture}"></dd>
         </dl>
         <button onclick="googleAuth.signout()">Sign out</button>

@@ -1,21 +1,20 @@
 class VkAuth {
     constructor(){
-        if (document.location.search === '?vk_authenticated') {
+        if (document.location.search === '?vk_authorized') {
             const query = new URLSearchParams(document.location.hash.slice(1));
-            this.accessToken = query.get('access_token');
-            localStorage.setItem('accessToken', this.accessToken)
-            this.userId = query.get('user_id');
-            localStorage.setItem('userId', this.userId)
+            this.access_token = query.get('access_token');
+            this.user_id = query.get('user_id');
+            localStorage.setItem('vk_access_token', this.access_token)
+            localStorage.setItem('vk_user_id', this.user_id)
             this.authenticated = true;
-            history.pushState({}, '', '')
-        } else if (localStorage.hasOwnProperty('accessToken') && localStorage.hasOwnProperty('userId')) {
-            this.userId = localStorage.getItem('userId');
-            this.accessToken = localStorage.getItem('accessToken');
+            history.pushState({}, '/', '/')
+        } else if (localStorage.hasOwnProperty('vk_access_token') && localStorage.hasOwnProperty('vk_user_id')) {
+            this.user_id = localStorage.getItem('vk_user_id');
+            this.access_token = localStorage.getItem('vk_access_token');
             this.authenticated = true;
         } else {
             this.authenticated = false;
         }
-        console.log(this.accessToken)
     }
     authenticate(){
         fetch('keys.json').then(res => {
@@ -24,7 +23,7 @@ class VkAuth {
             const host = 'https://oauth.vk.com/authorize?';
             const query = new URLSearchParams();
             query.set('client_id', keys.vk.client_id)
-            query.set('redirect_uri', document.location.host+'?vk_authenticated')
+            query.set('redirect_uri', document.location.host+'?vk_authorized')
             query.set('display', 'page')
             // query.set('scope', 'status,offline')
             query.set('response_type', 'token')
@@ -35,33 +34,52 @@ class VkAuth {
             document.location.href = url;
         })
     }
+    signout(){
+        this.user_id = null;
+        this.access_token = null;
+        localStorage.removeItem('vk_access_token');
+        this.authenticated = false;
+        document.location = document.location;
+    }
 }
 
 var vkAuth = new VkAuth;
 
 class VkAPI {
     constructor(auth){
-        if (!auth.authenticated) {
-            auth.authenticate();
-        } else {
+        this.auth = auth;
+        if (auth.authenticated) {
+            this.getProfile();
+        }
+    }
+    getProfile(){
+        if (this.auth.authenticated) {
             $.ajax({
-                url: this.buildUrl('users.get', {user_ids: auth.userId}, auth.accessToken),
+                url: this.buildUrl('users.get', {
+                        user_ids: this.auth.user_id,
+                        fields: 'photo,screenname'
+                    }, this.auth.access_token),
                 dataType:'jsonp',
                 callback: 'callback'
             })
             .done(json => {
-                this.data = json.response[0]
-                console.log(json);
-                updateView({vk: this.data});
-            })
+                if (json.response) {
+                    this.data = json.response[0]
+                    updateView({vk: this.data});
+                } else {
+                    console.log(json)
+                }
+            });
+        } else {
+            this.auth.authenticate();
         }
     }
-    buildUrl(methodName, params, accessToken) {
+    buildUrl(methodName, params, access_token) {
         const query = new URLSearchParams();
         for (let key in params){
             query.set(key, params[key]);
         }
-        return `https://api.vk.com/method/${methodName}?${query.toString()}&access_token=${accessToken}&v=5.63`
+        return `https://api.vk.com/method/${methodName}?${query.toString()}&access_token=${access_token}&v=5.63`
     }
 }
 var vkAPI = new VkAPI(vkAuth);
